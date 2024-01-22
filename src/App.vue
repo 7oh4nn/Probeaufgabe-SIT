@@ -1,47 +1,27 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import {onMounted} from 'vue';
+import DefaultLayout from "@/layouts/DefaultLayout.vue";
+import {useCounterStore} from '@/stores/counter.js'
+import TabModule from '@/components/TabModule.vue'
+
+const counter = useCounterStore();
+
+// Read basket count if existing
+onMounted
+(() => {
+  counter.readCount()
+})
+
+// safe basket count in session storage
+window.addEventListener('beforeunload', counter.safeCount)
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <DefaultLayout>
+    <TabModule />
+  </DefaultLayout>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<style scoped lang="scss">
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
