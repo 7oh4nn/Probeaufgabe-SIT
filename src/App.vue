@@ -1,24 +1,31 @@
 <script setup>
-import {onMounted} from 'vue';
-import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import {useCounterStore} from '@/stores/counter.js'
+import { onMounted, ref } from 'vue'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { useCartStore } from '@/stores/cartStore.js'
 import TabModule from '@/components/TabModule.vue'
+import ContentGrid from '@/components/ContentGrid.vue'
+import TabModulePanel from '@/components/TabModulePanel.vue'
 
-const counter = useCounterStore();
+const cart = useCartStore()
+const products = cart.allProducts
 
-// Read basket count if existing
+// Read cart count if existing
 onMounted
 (() => {
-  counter.readCount()
+  cart.readCartIDs()
 })
 
-// safe basket count in session storage
-window.addEventListener('beforeunload', counter.safeCount)
+// safe cart count in session storage
+window.addEventListener('beforeunload', cart.safeCartIDs)
 </script>
 
 <template>
   <DefaultLayout>
-    <TabModule />
+    <TabModule>
+      <TabModulePanel v-for="(product, index) in products" :title="product.title" :index="index">
+        <ContentGrid v-bind="product" :index="index" />
+      </TabModulePanel>
+    </TabModule>
   </DefaultLayout>
 </template>
 
