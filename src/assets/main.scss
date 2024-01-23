@@ -4,4 +4,72 @@
   margin: 0 auto;
   padding: 0;
   font-weight: normal;
+  min-height: 100vh;
+}
+
+.btn {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  padding: 16px;
+  width: max-content;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  background-color: var(--clr-grey-100);
+
+  overflow-x: hidden;
+
+  transition: transform 200ms ease-in-out;
+
+  &:hover, &:focus-visible {
+    span {
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+
+    svg {
+      opacity: 1;
+      transform: translateX(50%);
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  span, svg {
+    transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+  }
+
+  svg {
+    position: absolute;
+    right: 50%;
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+    transform: translateX(100px);
+    opacity: 0;
+  }
+
+  &--primary {
+    background-color: var(--clr-brand-red);
+    color: var(--clr-white);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
 }
