@@ -1,7 +1,7 @@
 <script setup>
-import AddToCart from '@/components/AddToCart.vue'
-import CarouselModule from '@/components/CarouselModule.vue'
-import { CartPlus } from '@iconoir/vue'
+import AddToCart from '@/components/AddToCart.vue';
+import CarouselModule from '@/components/CarouselModule.vue';
+import { CartPlus } from '@iconoir/vue';
 
 const product = defineProps({
   id: Number,
@@ -10,7 +10,7 @@ const product = defineProps({
   price: Number,
   image1: String,
   image2: String
-})
+});
 </script>
 
 <template>

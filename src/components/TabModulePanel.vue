@@ -1,6 +1,6 @@
 <script setup>
-import { inject, onMounted, onUnmounted, ref } from 'vue'
-import { NavArrowRight } from '@iconoir/vue'
+import { inject, onMounted, onUnmounted, ref } from 'vue';
+import { NavArrowRight } from '@iconoir/vue';
 
 const props = defineProps({
   title: {
@@ -11,28 +11,28 @@ const props = defineProps({
     required: true,
     type: Number
   }
-})
+});
 
-const openTabMaxHeight = ref(0)
-const accordionInner = ref([])
+const openTabMaxHeight = ref(0);
+const accordionInner = ref([]);
 
-const register = inject('accordion-register')
-const { expanded, toggle, unregister } = register()
+const register = inject('accordion-register');
+const { expanded, toggle, unregister } = register();
 
 function setCurrentMaxHeight() {
-  openTabMaxHeight.value = accordionInner.value.clientHeight
+  openTabMaxHeight.value = accordionInner.value.clientHeight;
 }
 
 function handleClick() {
-  toggle()
-  setCurrentMaxHeight(props.index)
+  toggle();
+  setCurrentMaxHeight(props.index);
 }
 
 onMounted(() => {
-  openTabMaxHeight.value = 10000 // some random big number as first value
-})
+  openTabMaxHeight.value = 10000; // some random big number as first value
+});
 
-onUnmounted(unregister)
+onUnmounted(unregister);
 </script>
 
 <template>
@@ -48,19 +48,18 @@ onUnmounted(unregister)
       {{ title }}
     </span>
   </button>
-  <Transition name="fade">
-    <div
-      :id="`tabModuleContent-${index}`"
-      class="tab-module__content"
-      role="region"
-      :style="expanded ? `max-height: ${openTabMaxHeight}px` : ''"
-      :aria-labelledby="`accordionitem-${index}`"
-      :aria-hidden="expanded ? 'false' : 'true'">
-      <div class="accordion__content-inner" ref="accordionInner">
-        <slot />
-      </div>
+  <div
+    :id="`tabModuleContent-${index}`"
+    class="tab-module__content"
+    role="region"
+    :style="expanded ? `max-height: ${openTabMaxHeight}px` : ''"
+    :aria-labelledby="`accordionitem-${index}`"
+    :aria-hidden="expanded ? 'false' : 'true'"
+  >
+    <div class="accordion__content-inner" ref="accordionInner">
+      <slot />
     </div>
-  </Transition>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -82,7 +81,9 @@ onUnmounted(unregister)
     background-color: var(--clr-grey-200);
     cursor: pointer;
 
-    transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+    transition:
+      background-color 200ms ease-in-out,
+      color 200ms ease-in-out;
 
     @media screen and (min-width: 768px) {
       padding: 16px 24px;
@@ -145,8 +146,9 @@ onUnmounted(unregister)
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     visibility: hidden;
-    transition: max-height 300ms ease-in-out,
-    visibility 0ms ease 300ms;
+    transition:
+      max-height 300ms ease-in-out,
+      visibility 0ms ease 300ms;
 
     @media screen and (min-width: 1280px) {
       max-height: 100% !important;
@@ -170,24 +172,14 @@ onUnmounted(unregister)
       // use css variables set by JS to open content on toggle to its max-height
       max-height: var(--content-toggle-item-max-height);
       visibility: visible;
-      transition: max-height 300ms ease-in-out,
-      visibility 0ms ease;
+      transition:
+        max-height 300ms ease-in-out,
+        visibility 0ms ease;
 
       @media screen and (min-width: 1280px) {
         opacity: 1;
       }
     }
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  opacity: 1;
-  transition: opacity 200ms ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

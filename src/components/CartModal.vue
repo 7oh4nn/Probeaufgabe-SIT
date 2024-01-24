@@ -1,30 +1,30 @@
 <script setup>
-import emptyCart from '@/assets/undraw_empty_cart_co35.svg'
-import { ref, watch } from 'vue'
-import { useCartStore } from '@/stores/cartStore.js'
-import CartProduct from '@/components/CartProduct.vue'
+import emptyCart from '@/assets/undraw_empty_cart_co35.svg';
+import { ref, watch } from 'vue';
+import { useCartStore } from '@/stores/cartStore.js';
+import CartProduct from '@/components/CartProduct.vue';
 
-const cart = useCartStore()
-const productsInCart = ref([])
-let uniqueIds = null
+const cart = useCartStore();
+const productsInCart = ref([]);
+let uniqueIds = null;
 
 watch(
   () => cart.cartModalOpen,
   (newValue) => {
     if (newValue === true) {
-      uniqueIds = new Set(cart.cartItems)
+      uniqueIds = new Set(cart.cartItems);
       uniqueIds.forEach((id) => {
-        productsInCart.value.push(cart.getCartProductsDetails(id))
-      })
+        productsInCart.value.push(cart.getCartProductsDetails(id));
+      });
     } else {
-      productsInCart.value = []
+      productsInCart.value = [];
     }
   }
-)
+);
 
 function clearCart() {
-  cart.clearCart()
-  cart.cartModalOpen = false
+  cart.clearCart();
+  cart.cartModalOpen = false;
 }
 </script>
 
