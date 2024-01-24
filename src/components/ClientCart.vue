@@ -37,7 +37,7 @@ function toggleCartModal() {
   cursor: pointer;
 
   border-radius: 50%;
-  padding: 6px;
+  padding: 8px;
 
   width: 48px;
   height: 48px;
@@ -52,7 +52,7 @@ function toggleCartModal() {
   &:hover,
   &:focus-visible,
   &.modal-open {
-    background-color: var(--clr-grey-200);
+    background-color: var(--clr-grey-100);
   }
 
   .bounce-enter-active {

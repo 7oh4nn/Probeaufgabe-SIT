@@ -1,7 +1,7 @@
 <script setup>
-import AddToCart from '@/components/AddToCart.vue';
-import CarouselModule from '@/components/CarouselModule.vue';
-import { CartPlus } from '@iconoir/vue';
+import AddToCart from '@/components/AddToCart.vue'
+import CarouselModule from '@/components/CarouselModule.vue'
+import { CartPlus } from '@iconoir/vue'
 
 const product = defineProps({
   id: Number,
@@ -10,7 +10,7 @@ const product = defineProps({
   price: Number,
   image1: String,
   image2: String
-});
+})
 </script>
 
 <template>
@@ -19,7 +19,9 @@ const product = defineProps({
       <img :src="product.image1" :alt="`Image of ${product.title}`" />
       <img :src="product.image2" :alt="`Another image of ${product.title}`" />
       <AddToCart :id="product.id" title="Add to cart">
-        <slot name="icon"><CartPlus /></slot>
+        <slot name="icon">
+          <CartPlus />
+        </slot>
       </AddToCart>
     </div>
     <CarouselModule />

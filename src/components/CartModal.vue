@@ -1,29 +1,30 @@
 <script setup>
-import emptyCart from '@/assets/undraw_empty_cart_co35.svg';
-import { ref, watch } from 'vue';
-import { useCartStore } from '@/stores/cartStore.js';
+import emptyCart from '@/assets/undraw_empty_cart_co35.svg'
+import { ref, watch } from 'vue'
+import { useCartStore } from '@/stores/cartStore.js'
+import CartProduct from '@/components/CartProduct.vue'
 
-const cart = useCartStore();
-const productsInCart = ref([]);
-let uniqueIds = null;
+const cart = useCartStore()
+const productsInCart = ref([])
+let uniqueIds = null
 
 watch(
   () => cart.cartModalOpen,
   (newValue) => {
     if (newValue === true) {
-      uniqueIds = new Set(cart.cartItems);
+      uniqueIds = new Set(cart.cartItems)
       uniqueIds.forEach((id) => {
-        productsInCart.value.push(cart.getCartProductsDetails(id));
-      });
+        productsInCart.value.push(cart.getCartProductsDetails(id))
+      })
     } else {
-      productsInCart.value = [];
+      productsInCart.value = []
     }
   }
-);
+)
 
 function clearCart() {
-  cart.clearCart();
-  cart.cartModalOpen = false;
+  cart.clearCart()
+  cart.cartModalOpen = false
 }
 </script>
 
@@ -31,28 +32,19 @@ function clearCart() {
   <Transition>
     <div v-if="cart.cartModalOpen" class="cart-modal">
       <div class="cart-modal__inner">
-        <h2>Ihr Einkaufswagen</h2>
+        <h2>Your shopping cart</h2>
         <ul v-if="productsInCart.length" class="cart-modal__products">
-          <li v-for="product in productsInCart" class="product" :key="product.id">
-            <div class="product__image">
-              <img :src="product.image1" :alt="product.title" />
-            </div>
-            <div class="product__details">
-              <h3>{{ product.title }}</h3>
-              <p>{{ product.price }} €</p>
-              <span>Anzahl: {{ cart.getCartProductsCount(product.id) }}</span>
-            </div>
-          </li>
+          <CartProduct v-for="product in productsInCart" :key="product.id" :product="product" />
         </ul>
         <button
           v-if="productsInCart.length"
           @click="clearCart"
           class="cart-modal__clear btn btn--secondary"
         >
-          Warenkorb leeren
+          Empty cart
         </button>
         <div v-else class="cart-modal__empty">
-          <p>... ist leer.</p>
+          <p>... is empty.</p>
           <img
             :src="emptyCart"
             alt="Illustration of a man with an empty shopping cart"
@@ -109,33 +101,6 @@ function clearCart() {
     list-style: none;
     margin: 0;
     padding: 0;
-
-    .product {
-      display: grid;
-      grid-template-columns: 50px auto;
-      gap: 0 1rem;
-
-      &:not(:first-of-type) {
-        margin-top: 1rem;
-      }
-
-      &__image {
-        width: 100%;
-        aspect-ratio: 1;
-        overflow: hidden;
-        border-radius: 0.5rem;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-
-      h3 {
-        font-weight: bold;
-      }
-    }
   }
 
   &__empty {

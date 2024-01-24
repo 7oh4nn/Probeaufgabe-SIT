@@ -44,6 +44,8 @@ onMounted(() => {
   tabToggles = document.querySelectorAll('.tab-module__toggle');
   setTabToggleLeft();
 });
+
+window.addEventListener('resize', setTabToggleLeft);
 </script>
 
 <template>
