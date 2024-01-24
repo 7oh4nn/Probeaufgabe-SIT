@@ -11,9 +11,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "express": "^4.18.2",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
-    "vue3-carousel": "^0.3.1"
+    "vue3-carousel": "^0.3.1",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@iconoir/vue": "^7.3.0",

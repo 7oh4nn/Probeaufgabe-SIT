@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { defineStore } from 'pinia';
 import productsData from '@/assets/products.json';
 
@@ -7,27 +7,68 @@ export const useCartStore = defineStore('cart', () => {
   const cartItems = ref([]);
   const allProducts = productsData;
   const cartModalOpen = ref(false);
+  const socket = ref(null);
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log('Received data from server:', data);
+
+    // Assuming the server sends the entire cartItems array
+    cartItems.value = data.cartItems;
+  };
 
   /* ACTION */
+  // Create the WebSocket on component mount
+  onMounted(() => {
+    console.log('Creating WebSocket');
+    socket.value = new WebSocket('ws://localhost:3000');
+
+    cartItems.value = [];
+
+    // Request the current cartItems from the server
+      socket.onopen = () => {
+      socket.send('request-cartItems');
+    };
+
+    // Handle incoming messages from the server
+    socket.value.onmessage = (event) => {
+      const data = event.data
+
+      try {
+        // Try parsing the message as JSON
+        const jsonData = JSON.parse(data);
+
+        // Check if the message is a response to the cartItems request
+        if (jsonData && jsonData.cartItems) {
+          console.log('Received cartItems from server:', jsonData.cartItems);
+          cartItems.value = jsonData.cartItems;
+        }
+      } catch (error) {
+        // Handle non-JSON messages
+        console.log('Received non-JSON message from server:', data);
+      }
+    };
+  });
+
   // increment and decrement count
   const addItem = (id) => {
     cartItems.value.push(id);
+
+    safeCartIDs();
   };
 
   const removeItem = (id) => {
     const index = cartItems.value.indexOf(id);
     if (index > -1) cartItems.value.splice(index, 1);
+
+    safeCartIDs();
   };
 
-  // safe itemsIDs in session storage
   const safeCartIDs = () => {
-    sessionStorage.setItem('cart-items', JSON.stringify(cartItems.value));
-  };
-
-  // read cart-count from session storage
-  const readCartIDs = () => {
-    const items = sessionStorage.getItem('cart-items');
-    if (items) cartItems.value = JSON.parse(items);
+    if (socket.value && socket.value.readyState === WebSocket.OPEN) {
+      const message = JSON.stringify(cartItems.value);
+      socket.value.send(message);
+    }
   };
 
   // get product details by ID
@@ -43,6 +84,7 @@ export const useCartStore = defineStore('cart', () => {
   // clear cart
   const clearCart = () => {
     cartItems.value = [];
+    safeCartIDs();
   };
 
   return {
@@ -52,7 +94,7 @@ export const useCartStore = defineStore('cart', () => {
     addItem,
     removeItem,
     safeCartIDs,
-    readCartIDs,
+    socket,
     getCartProductsCount,
     getCartProductsDetails,
     clearCart
