@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted, ref, inject, onUnmounted } from 'vue'
-import { NavArrowRight } from '@iconoir/vue'
+import { inject, onMounted, onUnmounted, ref } from 'vue';
+import { NavArrowRight } from '@iconoir/vue';
 
 const props = defineProps({
   title: {
@@ -11,47 +11,51 @@ const props = defineProps({
     required: true,
     type: Number
   }
-})
+});
 
-const openTabMaxHeight = ref(0)
-const accordionInner = ref([])
+const openTabMaxHeight = ref(0);
+const accordionInner = ref([]);
 
-const register = inject('accordion-register')
-const { expanded, toggle, unregister } = register()
+const register = inject('accordion-register');
+const { expanded, toggle, unregister } = register();
 
-function setCurrentMaxHeight(index) {
-  openTabMaxHeight.value = accordionInner.value.clientHeight
+function setCurrentMaxHeight() {
+  openTabMaxHeight.value = accordionInner.value.clientHeight;
 }
 
 function handleClick() {
-  toggle()
-  setCurrentMaxHeight(props.index)
+  toggle();
+  setCurrentMaxHeight(props.index);
 }
 
 onMounted(() => {
-  openTabMaxHeight.value = 10000 // some random big number as first value
-})
+  openTabMaxHeight.value = 10000; // some random big number as first value
+});
 
-onUnmounted(unregister)
+onUnmounted(unregister);
 </script>
 
 <template>
-  <button :id="`tabModuleItem-${index}`"
-          class="tab-module__toggle"
-          @click="handleClick"
-          :aria-expanded="expanded ? 'true' : 'false'"
-          :aria-controls="`tabModuleContent-${index}`">
+  <button
+    :id="`tabModuleItem-${index}`"
+    class="tab-module__toggle"
+    @click="handleClick"
+    :aria-expanded="expanded ? 'true' : 'false'"
+    :aria-controls="`tabModuleContent-${index}`"
+  >
     <NavArrowRight />
     <span role="heading" aria-level="3">
-          {{ title }}
-        </span>
+      {{ title }}
+    </span>
   </button>
-  <div :id="`tabModuleContent-${index}`"
-       class="tab-module__content"
-       role="region"
-       :style="expanded ? `max-height: ${openTabMaxHeight}px` : ''"
-       :aria-labelledby="`accordionitem-${index}`"
-       :aria-hidden="expanded ? 'false' : 'true'">
+  <div
+    :id="`tabModuleContent-${index}`"
+    class="tab-module__content"
+    role="region"
+    :style="expanded ? `max-height: ${openTabMaxHeight}px` : ''"
+    :aria-labelledby="`accordionitem-${index}`"
+    :aria-hidden="expanded ? 'false' : 'true'"
+  >
     <div class="accordion__content-inner" ref="accordionInner">
       <slot />
     </div>
@@ -84,7 +88,7 @@ onUnmounted(unregister)
 
     @media screen and (min-width: 1280px) {
       position: absolute;
-      bottom: 347px;
+      bottom: var(--carousel-height);
       left: 16px;
       width: max-content;
       font-size: 1.6rem;
@@ -97,11 +101,13 @@ onUnmounted(unregister)
       }
     }
 
-    &:hover, &:focus-visible {
+    &:hover,
+    &:focus-visible {
       color: var(--clr-brand-blue);
     }
 
-    span, svg {
+    span,
+    svg {
       pointer-events: none;
     }
 
@@ -117,7 +123,7 @@ onUnmounted(unregister)
       }
     }
 
-    &[aria-expanded="true"] {
+    &[aria-expanded='true'] {
       background-color: var(--clr-white);
       color: var(--clr-brand-blue);
       cursor: default;
@@ -135,12 +141,16 @@ onUnmounted(unregister)
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     visibility: hidden;
-    transition: max-height 300ms ease-in-out, visibility 0ms ease 300ms;
+    transition:
+      max-height 300ms ease-in-out,
+      visibility 0ms ease 300ms;
 
     @media screen and (min-width: 1280px) {
       max-height: 100% !important;
       opacity: 0.4;
-      transition: opacity 200ms ease-in-out, visibility 0ms ease 200ms;
+      transition:
+        opacity 200ms ease-in-out,
+        visibility 0ms ease 200ms;
     }
 
     &:not(:first-of-type) {
@@ -157,11 +167,13 @@ onUnmounted(unregister)
       border-bottom: 4px solid var(--clr-grey-200);
     }
 
-    &[aria-hidden="false"] {
+    &[aria-hidden='false'] {
       // use css variables set by JS to open content on toggle to its max-height
       max-height: var(--content-toggle-item-max-height);
       visibility: visible;
-      transition: max-height 300ms ease-in-out, visibility 0ms ease;
+      transition:
+        max-height 300ms ease-in-out,
+        visibility 0ms ease;
 
       @media screen and (min-width: 1280px) {
         opacity: 1;
