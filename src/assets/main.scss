@@ -25,7 +25,18 @@
 
   transition: transform 200ms ease-in-out;
 
-  &:hover, &:focus-visible {
+  @media screen and (min-width: 768px) {
+    padding: 18px;
+    font-size: 1.4rem;
+  }
+
+  @media screen and (min-width: 1280px) {
+    padding: 24px;
+    font-size: 1.6rem;
+  }
+
+  &:hover,
+  &:focus-visible {
     span {
       opacity: 0;
       transform: translateX(-100px);
@@ -41,8 +52,15 @@
     transform: scale(0.98);
   }
 
-  span, svg {
-    transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+  span {
+    font-weight: inherit;
+  }
+
+  span,
+  svg {
+    transition:
+      transform 200ms ease-in-out,
+      opacity 200ms ease-in-out;
   }
 
   svg {
@@ -53,6 +71,11 @@
     margin-left: 8px;
     transform: translateX(100px);
     opacity: 0;
+
+    @media screen and (min-width: 768px) {
+      width: 42px;
+      height: 42px;
+    }
   }
 
   &--primary {

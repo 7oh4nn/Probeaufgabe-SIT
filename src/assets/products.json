@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "title": "Budget Blender 2000",
+    "title": "Blender 2000",
     "description": "A versatile blender for all your kitchen needs.",
     "image1": "https://picsum.photos/1001",
     "image2": "https://picsum.photos/1002",
@@ -9,7 +9,7 @@
   },
   {
     "id": 2,
-    "title": "Super Saver Vacuum Cleaner",
+    "title": "Super Vacuum Cleaner",
     "description": "Efficiently clean your home with this budget-friendly vacuum.",
     "image1": "https://picsum.photos/1003",
     "image2": "https://picsum.photos/1004",
@@ -17,7 +17,7 @@
   },
   {
     "id": 3,
-    "title": "Discount Coffee Maker",
+    "title": "Coffee Maker",
     "description": "Start your day with a perfect cup of coffee from this affordable coffee maker.",
     "image1": "https://picsum.photos/1005",
     "image2": "https://picsum.photos/1006",
@@ -25,18 +25,10 @@
   },
   {
     "id": 4,
-    "title": "Value Microwave Oven",
+    "title": "Value Microwave",
     "description": "Effortlessly heat your meals with this budget-friendly microwave oven.",
     "image1": "https://picsum.photos/1007",
     "image2": "https://picsum.photos/1008",
     "price": 49.99
-  },
-  {
-    "id": 5,
-    "title": "Economy Smart TV",
-    "description": "Enjoy your favorite shows and movies on a budget with this smart TV.",
-    "image1": "https://picsum.photos/1009",
-    "image2": "https://picsum.photos/1010",
-    "price": 59.99
   }
 ]
