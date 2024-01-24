@@ -1,7 +1,7 @@
 <script setup>
-import { useCartStore } from '@/stores/cartStore.js'
+import { useCartStore } from '@/stores/cartStore.js';
 
-const cart = useCartStore()
+const cart = useCartStore();
 
 const props = defineProps({
   id: {
@@ -12,11 +12,11 @@ const props = defineProps({
     required: true,
     type: String
   }
-})
+});
 </script>
 
 <template>
-  <button @click="cart.addItem(id)" class="btn btn--primary" :title="title">
+  <button @click="cart.addItem(props.id)" class="btn btn--primary" :title="props.title">
     <span>
       {{ title }}
     </span>
@@ -27,7 +27,6 @@ const props = defineProps({
 <style lang="scss">
 .btn {
   &:active {
-
   }
 }
 </style>

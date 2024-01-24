@@ -3,13 +3,13 @@ const props = defineProps({
   index: {
     type: Number
   }
-})
+});
 </script>
 
 <template>
   <div class="card">
     <div class="card__media">
-      <img :src="`https://picsum.photos/32${index}/32${index}`" alt="">
+      <img :src="`https://picsum.photos/32${props.index}/32${props.index}`" alt="" />
     </div>
     <div class="card__content">
       <span>Link</span>
@@ -19,21 +19,19 @@ const props = defineProps({
 </template>
 
 <style lang="scss">
-
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   border-radius: 4px;
   background-color: var(--clr-grey-100);
   overflow: hidden;
   transition: box-shadow 200ms ease-in-out;
 
-
   &__media {
     width: 100%;
-    aspect-ratio: 4/3;
     overflow: hidden;
 
     img {
@@ -68,7 +66,8 @@ const props = defineProps({
     height: 100%;
   }
 
-  &:hover, &:focus-within {
+  &:hover,
+  &:focus-within {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 
     .card__media {

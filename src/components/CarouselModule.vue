@@ -1,14 +1,14 @@
 <script setup>
-import 'vue3-carousel/dist/carousel.css'
-import { Carousel, Navigation, Slide } from 'vue3-carousel'
-import { NavArrowLeft, NavArrowRight } from '@iconoir/vue'
-import TextMediaCard from '@/components/TextMediaCard.vue'
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Navigation, Slide } from 'vue3-carousel';
+import { NavArrowLeft, NavArrowRight } from '@iconoir/vue';
+import TextMediaCard from '@/components/TextMediaCard.vue';
 
 const settings = {
   // carousel settings
   itemsToShow: 1.5,
   itemsToScroll: 1
-}
+};
 
 const breakpoints = {
   // breakpoints are mobile first
@@ -26,7 +26,7 @@ const breakpoints = {
     snapAlign: 'start',
     itemsToScroll: 2
   }
-}
+};
 </script>
 
 <template>
@@ -48,18 +48,45 @@ const breakpoints = {
 </template>
 
 <style lang="scss">
+:root {
+  --carousel-height: 100%;
+  @media screen and (min-width: 1280px) {
+    --carousel-height: 330px;
+  }
+  @media screen and (min-width: 1440px) {
+    --carousel-height: 390px;
+  }
+}
 .carousel {
   position: relative;
   padding: 0 8px;
+  height: var(--carousel-height);
+
+  &__viewport,
+  &__track,
+  &__slide {
+    height: 100%;
+  }
+
   &__slide {
     padding: 1rem 0.5rem;
   }
 
-  &__prev, &__next {
+  &__prev,
+  &__next {
     height: 100%;
+    width: 32px;
     margin: 0;
     background-color: var(--clr-white);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+    @media screen and (min-width: 1280px) {
+      width: 48px;
+    }
+
+    @media screen and (min-width: 1440px) {
+      width: 56px;
+    }
 
     svg {
       width: 24px;
@@ -71,15 +98,11 @@ const breakpoints = {
       }
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       svg {
         color: var(--clr-brand-blue);
       }
-    }
-
-    @media screen and (min-width: 768px) {
-      width: 32px;
-
     }
 
     &--disabled {
@@ -87,5 +110,4 @@ const breakpoints = {
     }
   }
 }
-
 </style>

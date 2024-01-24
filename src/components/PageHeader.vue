@@ -1,13 +1,13 @@
 <script setup>
 import lidlLogo from '@/assets/logo.svg';
-import ClientCart from '@/components/ClientCart.vue'
+import ClientCart from '@/components/ClientCart.vue';
 </script>
 
 <template>
   <header class="header">
     <div class="header__inner">
       <div class="header__logo">
-        <img :src="lidlLogo" alt="Lidl Logo Deutschland">
+        <img :src="lidlLogo" alt="Lidl Logo Deutschland" />
       </div>
       <ClientCart />
     </div>
@@ -27,6 +27,10 @@ import ClientCart from '@/components/ClientCart.vue'
 
   z-index: 999;
 
+  @media screen and (min-width: 768px) {
+    padding: 8px 16px;
+  }
+
   &__inner {
     display: flex;
     justify-content: space-between;
@@ -38,6 +42,13 @@ import ClientCart from '@/components/ClientCart.vue'
 
   &__logo {
     display: flex;
+    width: 80px;
+    height: 80px;
+
+    @media screen and (min-width: 768px) {
+      width: 100px;
+      height: 100px;
+    }
   }
 }
 </style>

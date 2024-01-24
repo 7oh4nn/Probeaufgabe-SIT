@@ -1,15 +1,13 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <footer class="footer">
     <div class="footer__inner">
-    <a href="/">Impressum</a>
-    <a href="/">AGB</a>
-    <a href="/">Datenschutzbestimmungen</a>
-    <a href="/">Gesetzliche Zusatzinformationen</a>
-    <a href="/">Compliance</a>
+      <a href="/">Impressum</a>
+      <a href="/">AGB</a>
+      <a href="/">Datenschutzbestimmungen</a>
+      <a href="/">Gesetzliche Zusatzinformationen</a>
+      <a href="/">Compliance</a>
     </div>
   </footer>
 </template>

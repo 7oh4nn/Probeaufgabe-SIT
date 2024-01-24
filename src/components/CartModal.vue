@@ -1,28 +1,29 @@
 <script setup>
-import emptyCart from '@/assets/undraw_empty_cart_co35.svg'
-import { ref, watch } from 'vue'
-import { useCartStore } from '@/stores/cartStore.js'
-import AddToCart from '@/components/AddToCart.vue'
+import emptyCart from '@/assets/undraw_empty_cart_co35.svg';
+import { ref, watch } from 'vue';
+import { useCartStore } from '@/stores/cartStore.js';
 
-const cart = useCartStore()
-const productsInCart = ref([])
-let uniqueIds = null
+const cart = useCartStore();
+const productsInCart = ref([]);
+let uniqueIds = null;
 
-watch(() => cart.cartModalOpen, (newValue) => {
+watch(
+  () => cart.cartModalOpen,
+  (newValue) => {
     if (newValue === true) {
-      uniqueIds = new Set(cart.cartItems)
-      uniqueIds.forEach(id => {
-        productsInCart.value.push(cart.getCartProductsDetails(id))
-      })
+      uniqueIds = new Set(cart.cartItems);
+      uniqueIds.forEach((id) => {
+        productsInCart.value.push(cart.getCartProductsDetails(id));
+      });
     } else {
-      productsInCart.value = []
+      productsInCart.value = [];
     }
   }
-)
+);
 
 function clearCart() {
-  cart.clearCart()
-  cart.cartModalOpen = false
+  cart.clearCart();
+  cart.cartModalOpen = false;
 }
 </script>
 
@@ -43,13 +44,21 @@ function clearCart() {
             </div>
           </li>
         </ul>
-        <button v-if="productsInCart.length" @click="clearCart" class="cart-modal__clear btn btn--secondary">Warenkorb
-          leeren
+        <button
+          v-if="productsInCart.length"
+          @click="clearCart"
+          class="cart-modal__clear btn btn--secondary"
+        >
+          Warenkorb leeren
         </button>
         <div v-else class="cart-modal__empty">
           <p>... ist leer.</p>
-          <img :src="emptyCart" alt="Illustration of a man with an empty shopping cart" width="120"
-               class="cart-modal__empty" />
+          <img
+            :src="emptyCart"
+            alt="Illustration of a man with an empty shopping cart"
+            width="120"
+            class="cart-modal__empty"
+          />
         </div>
 
         <span v-if="productsInCart.length" class="cart-modal__count">
@@ -86,7 +95,6 @@ function clearCart() {
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.3);
-
 
     h2 {
       color: var(--clr-brand-blue);
