@@ -1,11 +1,11 @@
-// server.js
-const express = require('express');
-const http = require('http');
-const WebSocket = require('ws');
+// server.mjs
+import express from 'express';
+import http from 'http';
+import { WebSocketServer, WebSocket } from 'ws';
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ noServer: true });
+const wss = new WebSocketServer({ noServer: true });
 
 let cartItems = [];
 
@@ -13,27 +13,25 @@ let cartItems = [];
 wss.on('connection', (ws) => {
   console.log('Client connected');
 
-  // Send the initial cartItems to the connected client
-  ws.send(JSON.stringify({ cartItems }));
-
   ws.on('message', (message) => {
     // Handle incoming messages from clients (e.g., cart updates)
-    console.log('Received message:', message);
-
     // Assuming the message is a request for cartItems
-    if (message === 'request-cartItems') {
+    if (message.toString() === 'request-cartItems') {
+      console.log('Received request:', message.toString());
       // Send the cartItems as a JSON string
       const messageToSend = JSON.stringify({ cartItems });
       ws.send(messageToSend);
     } else {
-      cartItems = message.toString();
+      console.log('Received cart item IDs:', message.toString());
+      cartItems = JSON.parse(message);
+
+      // Broadcast the updated cart to all connected clients
+      wss.clients.forEach((client) => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ cartItems }));
+        }
+      });
     }
-    // Broadcast the updated cart to all connected clients
-    wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(message);
-      }
-    });
   });
 
 

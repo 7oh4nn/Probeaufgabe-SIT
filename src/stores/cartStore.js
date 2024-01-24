@@ -1,4 +1,4 @@
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import productsData from '@/assets/products.json';
 
@@ -9,51 +9,50 @@ export const useCartStore = defineStore('cart', () => {
   const cartModalOpen = ref(false);
   const socket = ref(null);
 
-  socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    console.log('Received data from server:', data);
+  /* ACTION */
+  // Connect to the WebSocket server
+  const connectWebSocket = () => {
+    // Check if the socket is not already created
+    if (!socket.value) {
+      socket.value = new WebSocket('ws://localhost:3000');
+      cartItems.value = [];
+      // Request the current cartItems from the server
+      socket.value.onopen = () => {
+      socket.value.send('request-cartItems');
+    };
 
-    // Assuming the server sends the entire cartItems array
-    cartItems.value = data.cartItems;
+      // Handle incoming messages from the server
+      socket.value.onmessage = (event) => {
+        const data = event.data;
+
+        try {
+          // Try parsing the message as JSON
+          const jsonData = JSON.parse(data);
+
+          // Check if the message is a response to the cartItems request
+          if (jsonData && jsonData.cartItems) {
+            cartItems.value = jsonData.cartItems;
+          }
+        } catch (error) {
+          // Handle non-JSON messages
+          console.log('Received non-JSON message from server:', data);
+        }
+      };
+    }
   };
 
-  /* ACTION */
-  // Create the WebSocket on component mount
-  onMounted(() => {
-    console.log('Creating WebSocket');
-    socket.value = new WebSocket('ws://localhost:3000');
-
-    cartItems.value = [];
-
-    // Request the current cartItems from the server
-      socket.onopen = () => {
-      socket.send('request-cartItems');
-    };
-
-    // Handle incoming messages from the server
-    socket.value.onmessage = (event) => {
-      const data = event.data
-
-      try {
-        // Try parsing the message as JSON
-        const jsonData = JSON.parse(data);
-
-        // Check if the message is a response to the cartItems request
-        if (jsonData && jsonData.cartItems) {
-          console.log('Received cartItems from server:', jsonData.cartItems);
-          cartItems.value = jsonData.cartItems;
-        }
-      } catch (error) {
-        // Handle non-JSON messages
-        console.log('Received non-JSON message from server:', data);
-      }
-    };
-  });
+// disconnect from the WebSocket server
+  const disconnectWebSocket = () => {
+    // Close the socket if it exists
+    if (socket.value) {
+      socket.value.close();
+      socket.value = null;
+    }
+  };
 
   // increment and decrement count
   const addItem = (id) => {
     cartItems.value.push(id);
-
     safeCartIDs();
   };
 
@@ -64,6 +63,7 @@ export const useCartStore = defineStore('cart', () => {
     safeCartIDs();
   };
 
+  // send cart item IDs to server
   const safeCartIDs = () => {
     if (socket.value && socket.value.readyState === WebSocket.OPEN) {
       const message = JSON.stringify(cartItems.value);
@@ -94,9 +94,11 @@ export const useCartStore = defineStore('cart', () => {
     addItem,
     removeItem,
     safeCartIDs,
-    socket,
     getCartProductsCount,
     getCartProductsDetails,
-    clearCart
+    clearCart,
+    socket,
+    connectWebSocket,
+    disconnectWebSocket
   };
 });

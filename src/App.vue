@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
 import { useCartStore } from '@/stores/cartStore.js';
 import TabModule from '@/components/TabModule.vue';
@@ -8,6 +8,15 @@ import TabModulePanel from '@/components/TabModulePanel.vue';
 
 const cart = useCartStore();
 const products = cart.allProducts;
+
+// Create the WebSocket on component mount
+onMounted(() => {
+  cart.connectWebSocket();
+});
+
+onUnmounted(() => {
+  cart.disconnectWebSocket();
+});
 </script>
 
 <template>
